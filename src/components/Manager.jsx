@@ -1,11 +1,40 @@
+import { useEffect } from 'react';
 import { useRef, useState } from 'react';
 
 const Manager = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [form, setForm] = useState({ site: '', username: '', password: '' });
+    const [passwordArray, setPasswordArray] = useState([]);
     const ref = useRef();
+
+    useEffect(() => {
+        let passwords = localStorage.getItem('passwords');
+        if (passwords) {
+            setPasswordArray(JSON.parse(passwords));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('passwords', JSON.stringify(passwordArray));
+    }, [passwordArray]);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
+    };
+
+    const savePassword = () => {
+        setPasswordArray((prevPasswords) => {
+            if (Array.isArray(prevPasswords)) {
+                return [...prevPasswords, form];
+            } else {
+                return [form];
+            }
+        });
+        setForm({ site: '', username: '', password: '' });
+    };
+
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
     };
 
     return (
@@ -15,7 +44,7 @@ const Manager = () => {
             </div>
 
             <div className="  mycontainer">
-                <h1 className="text-4xl font-bold text-center">
+                <h1 className="text-4xl font-bold text-center ">
                     <span className="text-green-500">&lt;</span>
                     Password
                     <span className="text-green-500">Manager /&gt;</span>
@@ -27,24 +56,30 @@ const Manager = () => {
                     <input
                         className="rounded-full border border-green-500 w-full px-4 py-1"
                         type="text"
-                        name=""
-                        id=""
+                        name="site"
+                        id="site"
+                        value={form.site}
+                        onChange={handleChange}
                         placeholder="Enter Website URL"
                     />
                     <div className="flex w-full gap-8 justify-between">
                         <input
                             type="text"
                             className="rounded-full border border-green-500 w-full px-4 py-1"
-                            name=""
-                            id=""
+                            name="username"
+                            id="username"
+                            value={form.username}
+                            onChange={handleChange}
                             placeholder="Enter Username"
                         />
                         <div className="relative flex items-center">
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 className="rounded-full border border-green-500 w-full px-4 py-1"
-                                name=""
-                                id=""
+                                name="password"
+                                id="password"
+                                value={form.password}
+                                onChange={handleChange}
                                 placeholder="Enter Password"
                                 ref={ref}
                             />
@@ -66,13 +101,50 @@ const Manager = () => {
                         </div>
                     </div>
 
-                    <button className="gap-2 flex justify-center items-center bg-green-400 hover:bg-green-300 rounded-full w-fit px-6 py-2 border border-green-900">
+                    <button
+                        onClick={savePassword}
+                        className="gap-2 flex justify-center items-center bg-green-400 hover:bg-green-300 rounded-full w-fit px-6 py-2 border border-green-900"
+                    >
                         <lord-icon
                             src="https://cdn.lordicon.com/jgnvfzqg.json"
                             trigger="hover"
                         ></lord-icon>
                         Add Password
                     </button>
+                </div>
+                <div className="passwords">
+                    <h2 className="font-bold text-2xl py-4">Your Passwords</h2>
+                    {passwordArray.length === 0 && (
+                        <div>No Passwords to show</div>
+                    )}
+                    {passwordArray.length != 0 && (
+                        <table className="table-auto w-full rounded-md overflow-hidden">
+                            <thead className="bg-green-800 text-white">
+                                <tr>
+                                    <th className="py-2">Site</th>
+                                    <th className="py-2">Username</th>
+                                    <th className="py-2">Password</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-green-100">
+                                {passwordArray.map((item) => (
+                                    <tr key={item.site}>
+                                        <td className="text-center border border-white w-32 py-2">
+                                            <a href={item.site} target="_blank">
+                                                {item.site}
+                                            </a>
+                                        </td>
+                                        <td className="text-center border border-white py-2 w-32">
+                                            {item.username}
+                                        </td>
+                                        <td className="text-center border border-white py-2 w-32">
+                                            {item.password}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             </div>
         </>
