@@ -1,5 +1,9 @@
 import { useEffect } from 'react';
 import { useRef, useState } from 'react';
+import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const Manager = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -38,14 +42,39 @@ const Manager = () => {
     };
 
     const copyText = (text) => {
+        toast.success('Copied to clipboard!', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+        });
         navigator.clipboard.writeText(text);
     };
+
     return (
         <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition="Bounce"
+            />
+            {/* Same as */}
+            <ToastContainer />
             <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
                 <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div>
             </div>
-
             <div className="  mycontainer">
                 <h1 className="text-4xl font-bold text-center ">
                     <span className="text-green-500">&lt;</span>
@@ -127,12 +156,13 @@ const Manager = () => {
                                     <th className="py-2">Site</th>
                                     <th className="py-2">Username</th>
                                     <th className="py-2">Password</th>
+                                    <th className="py-2">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-green-100">
                                 {passwordArray.map((item, index) => (
                                     <tr key={index}>
-                                        <td className="flex items-center justify-center text-center border border-white py-2">
+                                        <td className=" text-center border border-white py-2">
                                             <div className="flex items-center justify-center">
                                                 <a
                                                     href={item.site}
@@ -143,9 +173,9 @@ const Manager = () => {
                                                 </a>
                                                 <div
                                                     className="lordiconcopy size-7 cursor-pointer"
-                                                    onClick={copyText(
-                                                        item.site
-                                                    )}
+                                                    onClick={() => {
+                                                        copyText(item.site);
+                                                    }}
                                                 >
                                                     <lord-icon
                                                         style={{
@@ -165,9 +195,9 @@ const Manager = () => {
                                                 <span>{item.username}</span>
                                                 <div
                                                     className="lordiconcopy size-7 cursor-pointer"
-                                                    onClick={copyText(
-                                                        item.username
-                                                    )}
+                                                    onClick={() => {
+                                                        copyText(item.username);
+                                                    }}
                                                 >
                                                     <lord-icon
                                                         style={{
@@ -182,14 +212,14 @@ const Manager = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="flex items-center justify-center text-center border border-white py-2">
+                                        <td className=" text-center border border-white py-2">
                                             <div className="flex items-center justify-center">
                                                 <span>{item.password}</span>
                                                 <div
                                                     className="lordiconcopy size-7 cursor-pointer"
-                                                    onClick={copyText(
-                                                        item.password
-                                                    )}
+                                                    onClick={() => {
+                                                        copyText(item.password);
+                                                    }}
                                                 >
                                                     <lord-icon
                                                         style={{
@@ -203,6 +233,9 @@ const Manager = () => {
                                                     ></lord-icon>
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td className=" text-center border border-white py-2">
+                                            <span>Delete</span>
                                         </td>
                                     </tr>
                                 ))}
