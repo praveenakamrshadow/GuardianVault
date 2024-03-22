@@ -6,7 +6,7 @@ const Footer = () => {
                 Password
                 <span className="text-green-500">Manager /&gt;</span>
             </div>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center pb-1">
                 Created with{' '}
                 <img className="mx-1 w-5" src="icons/heart.png" alt="" /> by
                 Praveen Sahu

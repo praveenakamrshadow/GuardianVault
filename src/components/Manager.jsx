@@ -37,6 +37,9 @@ const Manager = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    const copyText = (text) => {
+        navigator.clipboard.writeText(text);
+    };
     return (
         <>
             <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
@@ -127,18 +130,79 @@ const Manager = () => {
                                 </tr>
                             </thead>
                             <tbody className="bg-green-100">
-                                {passwordArray.map((item) => (
-                                    <tr key={item.site}>
-                                        <td className="text-center border border-white w-32 py-2">
-                                            <a href={item.site} target="_blank">
-                                                {item.site}
-                                            </a>
+                                {passwordArray.map((item, index) => (
+                                    <tr key={index}>
+                                        <td className="flex items-center justify-center text-center border border-white py-2">
+                                            <div className="flex items-center justify-center">
+                                                <a
+                                                    href={item.site}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    <span>{item.site}</span>
+                                                </a>
+                                                <div
+                                                    className="lordiconcopy size-7 cursor-pointer"
+                                                    onClick={copyText(
+                                                        item.site
+                                                    )}
+                                                >
+                                                    <lord-icon
+                                                        style={{
+                                                            width: '25px',
+                                                            height: '25px',
+                                                            paddingTop: '3px',
+                                                            paddingLeft: '3px',
+                                                        }}
+                                                        src="https://cdn.lordicon.com/rbbnmpcf.json"
+                                                        trigger="hover"
+                                                    ></lord-icon>
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td className="text-center border border-white py-2 w-32">
-                                            {item.username}
+                                        <td className=" text-center border border-white py-2">
+                                            <div className="flex items-center justify-center">
+                                                <span>{item.username}</span>
+                                                <div
+                                                    className="lordiconcopy size-7 cursor-pointer"
+                                                    onClick={copyText(
+                                                        item.username
+                                                    )}
+                                                >
+                                                    <lord-icon
+                                                        style={{
+                                                            width: '25px',
+                                                            height: '25px',
+                                                            paddingTop: '3px',
+                                                            paddingLeft: '3px',
+                                                        }}
+                                                        src="https://cdn.lordicon.com/rbbnmpcf.json"
+                                                        trigger="hover"
+                                                    ></lord-icon>
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td className="text-center border border-white py-2 w-32">
-                                            {item.password}
+                                        <td className="flex items-center justify-center text-center border border-white py-2">
+                                            <div className="flex items-center justify-center">
+                                                <span>{item.password}</span>
+                                                <div
+                                                    className="lordiconcopy size-7 cursor-pointer"
+                                                    onClick={copyText(
+                                                        item.password
+                                                    )}
+                                                >
+                                                    <lord-icon
+                                                        style={{
+                                                            width: '25px',
+                                                            height: '25px',
+                                                            paddingTop: '3px',
+                                                            paddingLeft: '3px',
+                                                        }}
+                                                        src="https://cdn.lordicon.com/rbbnmpcf.json"
+                                                        trigger="hover"
+                                                    ></lord-icon>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
