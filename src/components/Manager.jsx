@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRef, useState } from 'react';
-import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -27,14 +27,27 @@ const Manager = () => {
     };
 
     const savePassword = () => {
+        const newPassword = { ...form, id: uuidv4() };
         setPasswordArray((prevPasswords) => {
             if (Array.isArray(prevPasswords)) {
-                return [...prevPasswords, form];
+                return [...prevPasswords, newPassword];
             } else {
-                return [form];
+                return [newPassword];
             }
         });
         setForm({ site: '', username: '', password: '' });
+    };
+
+    const deletePassword = (id) => {
+        console.log('deleting password with id', id);
+        setPasswordArray((prevPasswords) =>
+            prevPasswords.filter((p) => p.id !== id)
+        );
+    };
+    const editPassword = (id) => {
+        console.log('editing password with id', id);
+        setForm(passwordArray.filter((p) => p.id === id)[0]);
+        setPasswordArray(passwordArray.filter((p) => p.id !== id));
     };
 
     const handleChange = (e) => {
@@ -78,11 +91,11 @@ const Manager = () => {
             <div className="  mycontainer">
                 <h1 className="text-4xl font-bold text-center ">
                     <span className="text-green-500">&lt;</span>
-                    Password
-                    <span className="text-green-500">Manager /&gt;</span>
+                    Guardian
+                    <span className="text-green-500">Vault /&gt;</span>
                 </h1>
                 <p className="text-green-900 text-lg text-center">
-                    Your own Password Manager
+                    Safeguarding Your Digital Keys
                 </p>
                 <div className=" flex flex-col p-4 text-black gap-8 items-center">
                     <input
@@ -141,7 +154,7 @@ const Manager = () => {
                             src="https://cdn.lordicon.com/jgnvfzqg.json"
                             trigger="hover"
                         ></lord-icon>
-                        Add Password
+                        Save Password
                     </button>
                 </div>
                 <div className="passwords">
@@ -184,7 +197,7 @@ const Manager = () => {
                                                             paddingTop: '3px',
                                                             paddingLeft: '3px',
                                                         }}
-                                                        src="https://cdn.lordicon.com/rbbnmpcf.json"
+                                                        src="https://cdn.lordicon.com/wzwygmng.json"
                                                         trigger="hover"
                                                     ></lord-icon>
                                                 </div>
@@ -206,7 +219,7 @@ const Manager = () => {
                                                             paddingTop: '3px',
                                                             paddingLeft: '3px',
                                                         }}
-                                                        src="https://cdn.lordicon.com/rbbnmpcf.json"
+                                                        src="https://cdn.lordicon.com/wzwygmng.json"
                                                         trigger="hover"
                                                     ></lord-icon>
                                                 </div>
@@ -228,14 +241,43 @@ const Manager = () => {
                                                             paddingTop: '3px',
                                                             paddingLeft: '3px',
                                                         }}
-                                                        src="https://cdn.lordicon.com/rbbnmpcf.json"
+                                                        src="https://cdn.lordicon.com/wzwygmng.json"
                                                         trigger="hover"
                                                     ></lord-icon>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className=" text-center border border-white py-2">
-                                            <span>Delete</span>
+                                            <span
+                                                className="cursor-pointer mx-1"
+                                                onClick={() => {
+                                                    editPassword(item.id);
+                                                }}
+                                            >
+                                                <lord-icon
+                                                    src="https://cdn.lordicon.com/wuvorxbv.json"
+                                                    trigger="hover"
+                                                    style={{
+                                                        width: '25px',
+                                                        height: '25px',
+                                                    }}
+                                                ></lord-icon>
+                                            </span>
+                                            <span
+                                                className="cursor-pointer mx-1"
+                                                onClick={() => {
+                                                    deletePassword(item.id);
+                                                }}
+                                            >
+                                                <lord-icon
+                                                    src="https://cdn.lordicon.com/drxwpfop.json"
+                                                    trigger="hover"
+                                                    style={{
+                                                        width: '25px',
+                                                        height: '25px',
+                                                    }}
+                                                ></lord-icon>
+                                            </span>
                                         </td>
                                     </tr>
                                 ))}

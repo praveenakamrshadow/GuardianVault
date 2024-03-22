@@ -3,8 +3,8 @@ const Footer = () => {
         <div className="bg-slate-800 text-white flex flex-col justify-center items-center fixed bottom-0 w-full">
             <div className="logo font-bold text-2xl">
                 <span className="text-green-700">&lt;</span>
-                Password
-                <span className="text-green-500">Manager /&gt;</span>
+                Guardian
+                <span className="text-green-500">Vault /&gt;</span>
             </div>
             <div className="flex justify-center items-center pb-1">
                 Created with{' '}
