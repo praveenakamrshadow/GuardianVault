@@ -5,7 +5,7 @@ const Navbar = () => {
                 <div className="logo font-bold text-2xl">
                     <span className="text-green-700">&lt;</span>
                     Password
-                    <span className="text-green-700">Manager /&gt;</span>
+                    <span className="text-green-500">Manager /&gt;</span>
                 </div>
                 <ul>
                     <li className="flex gap-4">
